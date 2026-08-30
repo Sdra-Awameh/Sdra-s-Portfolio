@@ -307,6 +307,21 @@ section { scroll-margin-top: 30px; }
 .project-card:hover .project-preview {
   transform: scale(1.03);
 }
+
+/* Carousel images inside project previews */
+.project-preview .carousel-slide {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+.project-preview .carousel-slide.active {
+  opacity: 1;
+}
 .project-badge {
   display: inline-block;
   padding: 7px 11px;
@@ -775,8 +790,26 @@ section { scroll-margin-top: 30px; }
 @media (max-width: 1024px) {
   .personal-info-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .projects-grid { grid-template-columns: 1fr; }
-  .landing-container { flex-direction: column; gap: 30px; padding: 100px 20px 60px; text-align: center; }
-  .landing-intro, .landing-info { position: relative; inset: auto; transform: none; }
+  .landing-container {
+    flex-direction: column;
+    gap: 30px;
+    padding: 100px 20px 60px;
+    text-align: center;
+  }
+  .landing-intro,
+  .landing-info {
+    position: relative;
+    inset: auto;
+    transform: none;
+    width: min(100%, 520px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .landing-actions,
+  .social-links {
+    justify-content: center;
+  }
   .contact-flex { flex-direction: column; }
 }
 
@@ -796,10 +829,16 @@ section { scroll-margin-top: 30px; }
   .card-image-wrapper { width: 180px; height: 180px; }
   .contact-section h3 { font-size: 2.2rem; }
   .tab-btn { width: 100%; }
+  .landing-actions { width: 100%; }
+  .cta-btn { flex: 1 1 220px; }
+  .social-link { width: 48px; height: 48px; }
+  .social-link img { width: 22px; height: 22px; }
 }
 
 @media (max-width: 480px) {
   .landing-container { padding: 90px 16px 40px; }
+  .landing-actions { flex-direction: column; }
+  .cta-btn { width: 100%; }
   .skills-content { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
   .skill-card { padding: 16px 10px; }
   .skill-icon { width: 48px; height: 48px; }
@@ -822,7 +861,7 @@ section { scroll-margin-top: 30px; }
         <h2>Hello! I'm</h2>
         <h1>SDRA<br>AWAMEH</h1>
         <div class="landing-actions">
-          <a class="cta-btn cta-primary" href="./photo/Sdra_Awameh_QA_CV .pdf" download="Sdra_Awameh_QA_CV.pdf">Download CV</a>
+          <a class="cta-btn cta-primary" href="./photo/Sdra_Awameh_UIUX_CV.pdf" download="Sdra_Awameh_UIUX_CV.pdf">Download CV</a>
           <a class="cta-btn cta-secondary" href="mailto:sdra.o.awameh@gmail.com?subject=Contact%20Request">Contact Me</a>
         </div>
       </div>
@@ -1032,6 +1071,42 @@ Passionate about learning, exploring technology, and growing into a versatile so
   </div>
 </article>
 
+        <article class="project-card">
+          <div class="project-preview" id="sdra-carousel">
+            <img class="carousel-slide active" src="./photo/home-page.png" alt="SdRasha GYM - Home">
+            <img class="carousel-slide" src="./photo/client-list.png" alt="SdRasha GYM - Clients List">
+            <img class="carousel-slide" src="./photo/add-user.png" alt="SdRasha GYM - Add User">
+            <img class="carousel-slide" src="./photo/add-package.png" alt="SdRasha GYM - Add Package">
+            <img class="carousel-slide" src="./photo/delete-client.png" alt="SdRasha GYM - Modal Screens">
+          </div>
+          <span class="project-badge">Management System</span>
+          <h3><a href="#" target="_blank" rel="noopener noreferrer">SdRasha GYM</a></h3>
+          <p>Course-based prototype for a gym management system: users, packages, and admin flows. Includes signup/login, CRUD for clients and packages, and responsive UI.</p>
+          <div class="project-tech">
+            <span>PHP</span><span>MySQL</span><span>HTML/CSS</span><span>JavaScript</span>
+          </div>
+         
+            
+          
+          
+        </article>
+
+      <article class="project-card">
+        <div class="project-preview"><img src="./photo/Screenshot 2026-08-30 215321.png" alt="AAU E-learning Figma preview" style="width:100%;height:100%;object-fit:cover;display:block"></div>
+        <span class="project-badge">Design Prototype</span>
+        <h3><a href="https://www.figma.com/design/MQapmK4UKdo6SJmyLc7fST/AAU-E-learning-V.1.2-?node-id=0-1&p=f&t=sz2uPnjqtElyxwgU-0" target="_blank" rel="noopener noreferrer">AAU E-learning — Figma</a></h3>
+        <p>Figma prototype for the AAU E-learning V.1.2 project — interactive UI designs, flows, and visual assets for the learning platform.</p>
+        <div class="project-tech">
+          <span>Figma</span><span>UX/UI</span><span>Prototyping</span>
+        </div>
+        <div class="project-links">
+          <a href="https://www.figma.com/design/MQapmK4UKdo6SJmyLc7fST/AAU-E-learning-V.1.2-?node-id=0-1&p=f&t=sz2uPnjqtElyxwgU-0" class="btn-demo" target="_blank" rel="noopener noreferrer">
+            <span class="btn-icon">🎨</span>
+            View Design
+          </a>
+        </div>
+      </article>
+
 
     
 
@@ -1046,9 +1121,9 @@ Passionate about learning, exploring technology, and growing into a versatile so
     </div>
 
     <div class="certificate-list">
-      <article class="certificate-item" tabindex="0" role="button" aria-label="Open ISTQB Foundation Level certificate" data-image="./certificates/istqb.jpg" data-title="ISTQB Foundation Level" data-provider="QAcart">
+      <article class="certificate-item" tabindex="0" role="button" aria-label="Open ISTQB Foundation Level certificate" data-image="./photo/Screenshot 2026-08-30 213813.png" data-title="ISTQB Foundation Level" data-provider="QAcart">
         <button class="certificate-thumb" type="button" aria-label="Preview ISTQB Foundation Level certificate">
-          <img src="./certificates/istqb.jpg" alt="ISTQB Foundation Level certificate" onerror="this.style.display='none'; this.closest('.certificate-thumb').classList.add('is-placeholder');">
+          <img src="./photo/Screenshot 2026-08-30 213813.png" alt="ISTQB Foundation Level certificate" onerror="this.style.display='none'; this.closest('.certificate-thumb').classList.add('is-placeholder');">
           <span class="certificate-thumb-placeholder">Preview</span>
         </button>
         <div class="certificate-meta">
@@ -1059,9 +1134,9 @@ Passionate about learning, exploring technology, and growing into a versatile so
         <button class="certificate-open-btn" type="button">View</button>
       </article>
 
-      <article class="certificate-item" tabindex="0" role="button" aria-label="Open Foundations of Software Testing and Validation certificate" data-image="./certificates/software-testing.jpg" data-title="Foundations of Software Testing and Validation" data-provider="University of Leeds / Coursera">
+      <article class="certificate-item" tabindex="0" role="button" aria-label="Open Foundations of Software Testing and Validation certificate" data-image="./photo/Screenshot 2026-08-30 214348.png" data-title="Foundations of Software Testing and Validation" data-provider="University of Leeds / Coursera">
         <button class="certificate-thumb" type="button" aria-label="Preview Foundations of Software Testing and Validation certificate">
-          <img src="./certificates/software-testing.jpg" alt="Foundations of Software Testing and Validation certificate" onerror="this.style.display='none'; this.closest('.certificate-thumb').classList.add('is-placeholder');">
+          <img src="./photo/Screenshot 2026-08-30 214348.png" alt="Foundations of Software Testing and Validation certificate" onerror="this.style.display='none'; this.closest('.certificate-thumb').classList.add('is-placeholder');">
           <span class="certificate-thumb-placeholder">Preview</span>
         </button>
         <div class="certificate-meta">
@@ -1104,6 +1179,7 @@ Passionate about learning, exploring technology, and growing into a versatile so
     <div class="certificate-modal-content">
       <button class="certificate-modal-close" id="certificateModalClose" type="button" aria-label="Close certificate preview">×</button>
       <img class="certificate-modal-image" id="certificateModalImage" src="" alt="Certificate preview">
+      <iframe id="certificateModalFrame" style="display:none;width:100%;height:72vh;border:none;border-radius:12px;background:#fff"></iframe>
       <div class="certificate-modal-meta">
         <h3 id="certificateModalTitle"></h3>
         <p id="certificateModalProvider"></p>
@@ -1176,13 +1252,27 @@ document.querySelectorAll('.certificate-item').forEach(item => {
   const openModal = () => {
     const modal = document.getElementById('certificateModal');
     const modalImg = document.getElementById('certificateModalImage');
+    const modalFrame = document.getElementById('certificateModalFrame');
     const modalTitle = document.getElementById('certificateModalTitle');
     const modalProvider = document.getElementById('certificateModalProvider');
 
-    if (!modal || !modalImg || !modalTitle || !modalProvider) return;
+    if (!modal || !modalImg || !modalTitle || !modalProvider || !modalFrame) return;
 
-    modalImg.src = item.dataset.image;
-    modalImg.alt = `${item.dataset.title} certificate`;
+    const src = String(item.dataset.image || '');
+    const isPdf = src.toLowerCase().endsWith('.pdf');
+
+    if (isPdf) {
+      modalImg.style.display = 'none';
+      modalFrame.style.display = 'block';
+      modalFrame.src = src;
+    } else {
+      modalFrame.style.display = 'none';
+      modalFrame.src = '';
+      modalImg.style.display = 'block';
+      modalImg.src = src;
+      modalImg.alt = `${item.dataset.title} certificate`;
+    }
+
     modalTitle.textContent = item.dataset.title;
     modalProvider.textContent = item.dataset.provider;
     modal.classList.add('is-open');
@@ -1209,9 +1299,11 @@ document.querySelectorAll('.certificate-item').forEach(item => {
 
 function closeModal() {
   const modal = document.getElementById('certificateModal');
+  const modalFrame = document.getElementById('certificateModalFrame');
   if (!modal) return;
   modal.classList.remove('is-open');
   modal.setAttribute('aria-hidden', 'true');
+  if (modalFrame) modalFrame.src = '';
   document.body.style.overflow = '';
 }
 
@@ -1233,6 +1325,30 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
 
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// --- Project preview carousel init ---
+function initProjectCarousel(containerId, interval = 3000) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+  const slides = Array.from(container.querySelectorAll('.carousel-slide'));
+  if (slides.length <= 1) return;
+
+  // Preload images
+  slides.forEach(img => { const i = new Image(); i.src = img.src; });
+
+  let current = 0;
+  // ensure first slide visible
+  slides.forEach((s, idx) => s.classList.toggle('active', idx === 0));
+
+  setInterval(() => {
+    slides[current].classList.remove('active');
+    current = (current + 1) % slides.length;
+    slides[current].classList.add('active');
+  }, interval);
+}
+
+// start SdRasha carousel
+initProjectCarousel('sdra-carousel', 3500);
 </script>
 </body>
 </html>
