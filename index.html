@@ -747,7 +747,8 @@ section { scroll-margin-top: 30px; }
 .flip-card {
   width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform 0.8s cubic-bezier(0.4,0.2,0.2,1); transform-origin: center center;
 }
-.flip-card-container:hover .flip-card { transform: rotateY(180deg); }
+.flip-card-container:hover .flip-card,
+.flip-card-container.is-flipped .flip-card { transform: rotateY(180deg); }
 .flip-card-front, .flip-card-back {
   position: absolute; inset: 0; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 40px rgba(194,164,255,0.3); transform-style: preserve-3d;
 }
@@ -818,32 +819,114 @@ section { scroll-margin-top: 30px; }
   .tech-skills-section, .personal-info-section, .projects-section, .achievements-section, .contact-section { padding: 56px 18px; }
   .personal-info-grid { grid-template-columns: 1fr; }
   .certificate-list { grid-template-columns: 1fr; }
-  .certificate-item { padding: 10px 12px; }
+  .certificate-item {
+    padding: 10px 12px;
+    display: grid;
+    grid-template-columns: 72px minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 10px;
+  }
   .certificate-thumb { width: 72px; height: 86px; }
+  .certificate-open-btn {
+    width: auto;
+    justify-self: end;
+    padding: 8px 12px;
+  }
   .landing-section { min-height: auto; padding: 80px 0 40px; }
   .landing-intro h2 { font-size: 16px; }
   .landing-intro h1 { font-size: 28px; line-height: 28px; }
   .landing-info h3 { font-size: 18px; }
   .landing-info h2 { font-size: 28px; line-height: 30px; }
-  .flip-card-container { width: 220px; height: 280px; }
+  .flip-card-container {
+    width: 220px;
+    height: 280px;
+    cursor: pointer;
+    touch-action: manipulation;
+  }
+  .flip-card-container:hover .flip-card {
+    transform: none;
+  }
+  .flip-card {
+    transition: transform 0.45s ease, opacity 0.45s ease;
+  }
+  .flip-card-front,
+  .flip-card-back {
+    backface-visibility: visible;
+    transition: transform 0.45s ease, opacity 0.45s ease, visibility 0.45s ease;
+  }
+  .flip-card-front {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .flip-card-back {
+    opacity: 0;
+    transform: translateY(100%);
+    visibility: hidden;
+  }
+  .flip-card-container.is-flipped .flip-card-front {
+    opacity: 0;
+    transform: translateY(-18px);
+    visibility: hidden;
+  }
+  .flip-card-container.is-flipped .flip-card-back {
+    opacity: 1;
+    transform: translateY(0);
+    visibility: visible;
+  }
   .card-image-wrapper { width: 180px; height: 180px; }
+  .back-title { font-size: 1.08rem; }
+  .back-text {
+    font-size: 0.7rem;
+    line-height: 1.45;
+  }
+  .flip-hint { font-size: 0.68rem; }
   .contact-section h3 { font-size: 2.2rem; }
+  .skills-tabs {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
   .tab-btn { width: 100%; }
-  .landing-actions { width: 100%; }
-  .cta-btn { flex: 1 1 220px; }
+  .landing-actions {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .cta-btn { width: 100%; }
+  .project-links {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .project-links a {
+    width: 100%;
+    justify-content: center;
+  }
   .social-link { width: 48px; height: 48px; }
   .social-link img { width: 22px; height: 22px; }
 }
 
 @media (max-width: 480px) {
   .landing-container { padding: 90px 16px 40px; }
-  .landing-actions { flex-direction: column; }
+  .landing-actions {
+    grid-template-columns: 1fr;
+    flex-direction: column;
+  }
   .cta-btn { width: 100%; }
   .skills-content { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
   .skill-card { padding: 16px 10px; }
   .skill-icon { width: 48px; height: 48px; }
   .project-card { padding: 18px; }
   .project-preview { height: 150px; }
+  .skills-tabs { grid-template-columns: 1fr; }
+  .certificate-item {
+    grid-template-columns: 64px minmax(0, 1fr);
+  }
+  .certificate-open-btn {
+    grid-column: 1 / -1;
+    width: 100%;
+    justify-self: stretch;
+  }
 }
 
 @media (max-width: 600px) { .cursor-main { display: none; } }
@@ -1325,6 +1408,29 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
 
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+const flipCardContainer = document.querySelector('.flip-card-container');
+if (flipCardContainer) {
+  const enableMobileFlip = () => {
+    if (window.innerWidth <= 768) {
+      flipCardContainer.setAttribute('tabindex', '0');
+      flipCardContainer.setAttribute('role', 'button');
+      flipCardContainer.setAttribute('aria-label', 'Toggle profile details');
+      flipCardContainer.addEventListener('click', () => {
+        flipCardContainer.classList.toggle('is-flipped');
+      });
+      flipCardContainer.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          flipCardContainer.classList.toggle('is-flipped');
+        }
+      });
+    }
+  };
+
+  enableMobileFlip();
+  window.addEventListener('resize', enableMobileFlip);
+}
 
 // --- Project preview carousel init ---
 function initProjectCarousel(containerId, interval = 3000) {
